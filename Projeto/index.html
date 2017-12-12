@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Collective Playlist Generator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <link type="text/css" href="styles.css" rel="stylesheet"/>
+    <link href="dist/sp-bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="images/favicon.png?v=2">
+    <link rel="stylesheet" href="dist/fontawesome-free-5.0.1/web-fonts-with-css/css/fontawesome-all.min.css">
+    <!-- Custom styles for this template -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<!-- Cabeçalho -->
+<div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">
+                <span class="navbar-logo">Spotify</span>
+                <span class="navbar-title">CIn - Centro de Informática</span>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <a href="http://www.spotify.com" class="btn btn-primary navbar-btn navbar-right">
+                Get Spotify
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Corpo principal -->
+<div id='top' class="jumbotron">
+    <div class="container-fluid" id="jumbo-dialog">
+        <h1 id='attitle'>Gerador de Playlist Coletiva</h1>
+        <p class="lead">Uma boa festa deve ter uma playlist agrade a todos ;)</p>
+        <p id='ttext'>
+            A cada novo participante da festa o Gerador de Playlist Coletiva atualiza as músicas da playlist
+            de acordo com o gosto do participante e das caracteristicas da festa. Gostaria de criar a melhor
+            para sua festa? crie uma playlist e compartilhe-a para que seus convidados possam colaborar.
+        </p>
+
+        <div class='intro-form' id='login-form'>
+            <p>
+                Para continuar, realize o login com o Spotify
+            </p>
+            <p><a class="btn btn-primary btn-lg" id='login-button' role="button">Login com Spotify</a></p>
+        </div>
+
+        <div id="goToListagem" class="intro-form row">
+            <button class="btn btn-primary btn-lg" role="button">Ver playlists</button>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="listagem">
+        <h1>Todas as Playlists</h1>
+        <ul class="list-playlists">
+            <li class="playlist finalizada">as</li>
+            <li class="playlist">asdasd</li>
+            <li class="playlist">fgd</li>
+        </ul>
+        <a class="btn btn-primary btn-lg"> Sair</a>
+        <button class="btn btn-primary btn-lg"><i class="fa fa-music" aria-hidden="true"></i> Criar Playlist</button>
+    </div>
+
+    <div class="container-fluid" id="showPlaylist">
+        <h1>Colaborar com a playlist XXX</h1>
+        <p>Exibe player list no estado atual</p>
+        <a class="btn btn-primary btn-lg"><i class="fa fa-arrow-left" aria-hidden="true"></i> Voltar</a>
+        <!-- Se a playlist não foi finalizada -->
+        <button class="btn btn-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Colaborar</button>
+    </div>
+
+    <div class="container-fluid" id="createPlaylist">
+        <form>
+            <div class="form-group">
+                <label>Gêneros:
+                    <input type="checkbox" class="form-control" value="1"/> Qualquer gênero
+                    <input type="checkbox" class="form-control" value="2"/> Escolher gêneros:
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" class="form-control" value="1"/> G1
+                    <input type="radio" class="form-control" value="2"/> G2
+                </label>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script src="lib/jquery-1.11.1.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<script src="src/generator.js"></script>
+
+</html>
