@@ -38,7 +38,7 @@
 
 <!-- Corpo principal -->
 <div id='top' class="jumbotron">
-    <div class="container-fluid" id="jumbo-dialog">
+    <div class="container-fluid" id="inicial">
         <h1 id='attitle'>Gerador de Playlist Coletiva</h1>
         <p class="lead">Uma boa festa deve ter uma playlist agrade a todos ;)</p>
         <p id='ttext'>
@@ -51,10 +51,10 @@
             <p>
                 Para continuar, realize o login com o Spotify
             </p>
-            <p><a class="btn btn-primary btn-lg" id='login-button' role="button">Login com Spotify</a></p>
+            <p><a class="btn btn-primary btn-lg" id='login' role="button">Login com Spotify</a></p>
         </div>
 
-        <div id="goToListagem" class="intro-form row">
+        <div id="verPlaylists" class="intro-form row">
             <button class="btn btn-primary btn-lg" role="button">Ver playlists</button>
         </div>
     </div>
@@ -66,8 +66,8 @@
             <li class="playlist">asdasd</li>
             <li class="playlist">fgd</li>
         </ul>
-        <a class="btn btn-primary btn-lg"> Sair</a>
-        <button class="btn btn-primary btn-lg"><i class="fa fa-music" aria-hidden="true"></i> Criar Playlist</button>
+        <!--<a class="btn btn-primary btn-lg" id="sair"> Sair</a>-->
+        <button class="btn btn-primary btn-lg" id="criar"><i class="fa fa-music" aria-hidden="true"></i> Criar Playlist</button>
     </div>
 
     <div class="container-fluid" id="showPlaylist">
@@ -92,6 +92,8 @@
                     <input type="radio" class="form-control" value="2"/> G2
                 </label>
             </div>
+            <button class="btn btn-primary btn-lg" type="reset" id="cancelar"> Cancelar</button>
+            <button class="btn btn-primary btn-lg" type="submit"> Finalizar Playlist</button>
         </form>
     </div>
 </div>
