@@ -32,6 +32,10 @@ function initApp() {
         hideAllcontents();
         $("#listagem").show();
     });
+
+    $("#colaborar").on('click', function() {
+        addColaboracao();
+    });
 }
 
 function hideAllcontents() {
@@ -39,6 +43,42 @@ function hideAllcontents() {
     $("#showPlaylist").hide();
     $("#createPlaylist").hide();
     $("#inicial").hide();
+}
+
+
+function addColaboracao() {
+    function processColaboracaoError() {
+        console.log("Não foi possivel pegar os artistas tops");
+        //console.log(credentials.token);
+        error("Não foi possivel pegar os artistas tops");
+    }
+
+    function processTopArtits(data) {
+        //console.log(data.items);
+
+        console.log(credentials.user_id);
+        var itens = data.items;
+
+        $("#teste-content").empty();
+        $("#teste-content").append("<ul>");
+
+
+        console.log(itens);
+
+        for(let i = 0; i<itens.length; i++) {
+            $("#teste-content").append("<li><a href="+ itens[i].external_urls.spotify +">"+ itens[i].name+"</a></li>");
+        }
+
+        $("#teste-content").append("</ul>");
+
+        //$("#teste-content").text(data);
+    }
+
+    var url = 'https://api.spotify.com/v1/me/top/artists';
+    var params = {
+        limit:10
+    };
+    callSpotify(url, params).then(processTopArtits, processColaboracaoError);
 }
 
 function createPlaylist() {
@@ -57,7 +97,7 @@ function login() {
     var client_id = '73b2df5bfdb1444ab0186e0a165aca81';
     //var redirect_uri = 'http://localhost:4200/index.html';
     var redirect_uri = 'http://localhost:4200/index.html';
-    var scopes = 'playlist-modify-public';
+    var scopes = 'user-top-read';//playlist-modify-public';
 
     var url = 'https://accounts.spotify.com/authorize?client_id=' + client_id +
         '&response_type=token' +
@@ -146,6 +186,10 @@ function callSpotify(url, data) {
             'Authorization': 'Bearer ' + credentials.token
         }
     });
+}
+
+function error(s) {
+    $("#erro").text(s);
 }
 
 $(document).ready(
