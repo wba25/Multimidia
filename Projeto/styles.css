@@ -108,15 +108,15 @@ h1 {
 
 .list-playlists .playlist {
     padding: 20px;
-    background-color: #1bc156;
-    color: #ffffff;
+    /*background-color: #1bc156;*/
+    color: #000000;
     font-size: 18pt;
     margin: 0 auto;
     height: 400px;
 }
 
 .list-playlists .playlist:hover {
-    background-color: #1ed760;
+    /*background-color: #1ed760;*/
 }
 
 #playlist-content {
