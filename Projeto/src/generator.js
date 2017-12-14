@@ -1,6 +1,7 @@
 // Variaveis globais
 var isLogged = false;
 var credentials = null;
+var itens = null;
 
 function initApp() {
     //checkLogin();
@@ -8,9 +9,6 @@ function initApp() {
     hideAllcontents();
     $("#inicial").show();
     $("#playlist-title").html("Playlist "+playlist.name);
-
-    showIF("#login-form",!isLogged);
-    showIF("#verPlaylists",isLogged);
 
     $("#login").on().on('click', function() {
         login();
@@ -44,6 +42,15 @@ function initApp() {
         $("#listagem").show();
     });
 
+    $("#submit-btn").on('click', function() {
+        let input_name = $('#playlist-name');
+        let input_description = $('#playlist-description');
+        if(input_name.val() !== '' && input_description.val() !== '') {
+            console.log("Creating playlist");
+            // TODO banco de dados user_id_ower
+            savePlaylist(input_name.val(), input_description.val());
+        }
+    });
     /*
     for(let i = 0; i < playlists.length; i++) {
         $("#playlist_"+i).on('click', function() {
@@ -77,11 +84,10 @@ function addColaboracao() {
         //console.log(data.items);
 
         console.log(credentials.user_id);
-        var itens = data.items;
+        itens = data.items;
 
         $("#playlist-content").empty();
         $("#playlist-content").append("<ol class>");
-
 
         console.log(itens);
 
@@ -106,7 +112,6 @@ function addColaboracao() {
 function show_all_playerlists() {
     let div_playlists = $(".list-playlists");
     div_playlists.empty();
-    console.log("opa");
     for(let i = 0; i < playlists.length; i++) {
         if(i%4 === 0) {
             div_playlists.append('<div class="row">');
@@ -132,7 +137,50 @@ function show_all_playerlists() {
 function createPlaylist() {
     hideAllcontents();
     $("#createPlaylist").show();
-    // TODO criar playlist
+}
+
+function savePlaylist(title, descricao) {
+    if(itens === null) {
+        console.log("Sem musicas para salvar na playlist");
+        return;
+    }
+
+    var tids = [];
+
+    for(let i = 0; i <= itens.length ;i++){
+        if(itens[i] !== undefined) {
+            console.log(itens[i]);
+            tids.push(itens[i].uri);
+        }
+    }
+
+    var url = "https://api.spotify.com/v1/users/" + credentials.user_id + "/playlists";
+    var json = { name: title, description: descricao};
+
+    postSpotify(url, json, function(ok, playlist) {
+        if (ok) {
+            saveTidsToPlaylist(playlist, tids);
+        } else {
+            error("Can't create the new playlist");
+        }
+    });
+}
+
+function saveTidsToPlaylist(playlist, tids) {
+    var url = "https://api.spotify.com/v1/users/" + playlist.owner.id +
+        "/playlists/" + playlist.id + '/tracks';
+
+    postSpotify(url, {uris: tids}, function(ok, data) {
+        if (ok) {
+            console.log('Playlist salva: '+ playlist.uri);
+            /*
+            $("#ready-to-save").hide(100);
+            $("#playlist-name").attr('href', playlist.uri);
+            */
+        } else {
+            error("Deu problema para salvar a playlist");
+        }
+    });
 }
 
 function logout() {
@@ -152,13 +200,36 @@ function login() {
         '&scope=' + encodeURIComponent(scopes) +
         '&redirect_uri=' + encodeURIComponent(redirect_uri);
 
-    console.log(url);
-
     document.location = url;
 }
 
 function getTime() {
     return Math.round(new Date().getTime() / 1000);
+}
+
+function postSpotify(url, json, callback) {
+    $.ajax(url, {
+        type: "POST",
+        data: JSON.stringify(json),
+        dataType: 'json',
+        headers: {
+            'Authorization': 'Bearer ' + credentials.token,
+            'Content-Type': 'application/json'
+        },
+        success: function(r) {
+            callback(true, r);
+        },
+        error: function(r) {
+            // 2XX status codes are good, but some have no
+            // response data which triggers the error handler
+            // convert it to goodness.
+            if (r.status >= 200 && r.status < 300) {
+                callback(true, r);
+            } else {
+                callback(false, r);
+            }
+        }
+    });
 }
 
 function performAuthDance() {
