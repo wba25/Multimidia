@@ -198,8 +198,10 @@ function addColaboracao() {
     function fillNewPlaylist(new_playlist_tracks, current_playlist_tracks, colaborate_playlist_tracks, number) {
         let mostPops = sortTracksByPop(current_playlist_tracks.concat(colaborate_playlist_tracks));
 
-        for(let i = mostPops.length-1; i>=0; i--){
+        let j = 0;
+        for(let i = mostPops.length-1; j<number; i--){
             new_playlist_tracks.push(mostPops[i]);
+            j++;
         }
 
         console.log(new_playlist_tracks);
@@ -235,7 +237,13 @@ function addColaboracao() {
 
         let tids = [];
 
-        console.log(new_playlist_tracks);
+        /*
+        var uniqueTracks = [];
+        $.each(new_playlist_tracks, function(i, el){
+            if($.inArray(el, uniqueTracks) === -1) uniqueTracks.push(el);
+        });
+        console.log(uniqueTracks);
+        */
 
         for(let j = 0; j < new_playlist_tracks.length ;j++){
             tids[j] = new_playlist_tracks[j].uri;
@@ -389,6 +397,8 @@ function saveTidsToPlaylist(playlist, tids) {
 }
 
 function replaceTidsToPlaylist(playlist, tids) {
+    console.log(playlist);
+    console.log(tids);
     let url = "https://api.spotify.com/v1/users/" + playlist.owner.id + "/playlists/" + playlist.id + '/tracks';
 
     putSpotify(url, {uris: tids}, function(ok, data) {
