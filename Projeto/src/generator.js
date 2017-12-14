@@ -7,6 +7,7 @@ function initApp() {
 
     hideAllcontents();
     $("#inicial").show();
+    $("#playlist-title").html("Playlist "+playlist.name);
 
     showIF("#login-form",!isLogged);
     showIF("#verPlaylists",isLogged);
@@ -15,9 +16,10 @@ function initApp() {
         login();
     });
 
-    $("#verPlaylists").on('click', function() {
+    $("#showPlaylistsBtn").on('click', function() {
         $("#inicial").hide();
         $("#listagem").show();
+        show_all_playerlists();
     });
 
     $("#sair").on('click', function() {
@@ -36,6 +38,20 @@ function initApp() {
     $("#colaborar").on('click', function() {
         addColaboracao();
     });
+
+    /*
+    for(let i = 0; i < playlists.length; i++) {
+        $("#playlist_"+i).on('click', function() {
+            console.log("clikou!");
+            show_playlist(i);
+        });
+    }
+    */
+}
+
+function show_playlist(id) {
+    hideAllcontents();
+    $("#showPlaylist").show();
 }
 
 function hideAllcontents() {
@@ -44,7 +60,6 @@ function hideAllcontents() {
     $("#createPlaylist").hide();
     $("#inicial").hide();
 }
-
 
 function addColaboracao() {
     function processColaboracaoError() {
@@ -59,26 +74,54 @@ function addColaboracao() {
         console.log(credentials.user_id);
         var itens = data.items;
 
-        $("#teste-content").empty();
-        $("#teste-content").append("<ul>");
+        $("#playlist-content").empty();
+        $("#playlist-content").append("<ol class>");
 
 
         console.log(itens);
 
         for(let i = 0; i<itens.length; i++) {
-            $("#teste-content").append("<li><a href="+ itens[i].external_urls.spotify +">"+ itens[i].name+"</a></li>");
+            $("#playlist-content").append('<li>' +
+                '<iframe src="https://open.spotify.com/embed?uri=' + itens[i].uri + '" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>' +
+                '</li>');
         }
 
-        $("#teste-content").append("</ul>");
+        $("#playlist-content").append("</ol>");
 
         //$("#teste-content").text(data);
     }
 
-    var url = 'https://api.spotify.com/v1/me/top/artists';
+    var url = 'https://api.spotify.com/v1/me/top/tracks';
     var params = {
-        limit:10
+        limit:playlist.limit
     };
     callSpotify(url, params).then(processTopArtits, processColaboracaoError);
+}
+
+function show_all_playerlists() {
+    let div_playlists = $(".list-playlists");
+    div_playlists.empty();
+    console.log("opa");
+    for(let i = 0; i < playlists.length; i++) {
+        if(i%4 === 0) {
+            div_playlists.append('<div class="row">');
+        }
+        if(playlists[i].finished) {
+            div_playlists.append('<div class="col-md-3 playlist finalizada">' +
+                '<p>' + playlists[i].name + '</p>' +
+                '<button class="btn" id="playlist_'+ i +'"><i class="fa fa-users" aria-hidden="true"></i> colaborar </button>' +
+                '</div>');
+        } else {
+            div_playlists.append('<div class="col-md-3 playlist">' +
+                '<p>' + playlists[i].name + '</p>' +
+                '<button class="btn" id="playlist_'+ i +'" onclick="show_playlist('+playlists[i].id+');"><i class="fa fa-users" aria-hidden="true"></i> colaborar </button>' +
+                '</div>');
+        }
+        if(i !== 0 && i%4 === 0) {
+            div_playlists.append('</div>');
+        }
+    }
+    div_playlists.append('</div>');
 }
 
 function createPlaylist() {
@@ -121,7 +164,9 @@ function performAuthDance() {
 
     if (credentials && credentials.expires > getTime()) {
         hideAllcontents();
-        $("#listagem").show();
+        $("#inicial").show();
+        isLogged = true;
+        //$("#listagem").show();
     } else {
         // we have a token as a hash parameter in the url
         // so parse hash
@@ -156,7 +201,9 @@ function performAuthDance() {
                     localStorage['credentials'] = JSON.stringify(credentials);
                     location.hash = '';
                     hideAllcontents();
-                    $("#listagem").show();
+                    $("#inicial").show();
+                    isLogged = true;
+                    //$("#listagem").show();
                 },
                 function() {
                     error("Can't get user info");
@@ -164,9 +211,13 @@ function performAuthDance() {
             );
         } else {
             // otherwise, got to spotify to get auth
-            $("#login-form").show();
+            //$("#login-form").show();
+            isLogged = false;
         }
     }
+
+    showIF("#login-form",!isLogged);
+    showIF("#verPlaylists",isLogged);
 }
 
 function showIF(seletor, condicao) {

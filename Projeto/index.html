@@ -39,7 +39,7 @@
 <!-- Corpo principal -->
 <div id='top' class="jumbotron">
     <div class="container-fluid" id="inicial">
-        <h1 id='attitle'>Gerador de Playlist Coletiva</h1>
+        <h1 id='attitle'>Collab Playlist Gerador</h1>
         <p class="lead">Uma boa festa deve ter uma playlist agrade a todos ;)</p>
         <p id='ttext'>
             A cada novo participante da festa o Gerador de Playlist Coletiva atualiza as músicas da playlist
@@ -55,26 +55,26 @@
         </div>
 
         <div id="verPlaylists" class="intro-form row">
-            <button class="btn btn-primary btn-lg" role="button">Ver playlists</button>
+            <button class="btn btn-primary btn-lg" role="button" id="showPlaylistsBtn">Ver playlists</button>
         </div>
     </div>
 
-    <!--
     <div class="container-fluid" id="listagem">
         <h1>Todas as Playlists</h1>
-        <ul class="list-playlists">
-            <li class="playlist finalizada">as</li>
-            <li class="playlist">asdasd</li>
-            <li class="playlist">fgd</li>
-        </ul>
-        <!--<a class="btn btn-primary btn-lg" id="sair"> Sair</a>
+        <div class="list-playlists container-fluid">
+            <div class="playlist finalizada">
+            </div>
+            <div class="playlist">asdasd</div>
+            <div class="playlist">fgd</div>
+        </div>
+        <!--<a class="btn btn-primary btn-lg" id="sair"> Sair</a>-->
         <button class="btn btn-primary btn-lg" id="criar"><i class="fa fa-music" aria-hidden="true"></i> Criar Playlist</button>
     </div>
-    -->
 
-    <div class="container-fluid" id="listagem">
-        <h1>Colaborar com a playlist Dia CIn(não oficial)</h1>
-        <div id="teste-content">
+    <div class="container-fluid" id="showPlaylist">
+        <h1 id="playlist-title">Colaborar com a playlist Dia CIn(não oficial)</h1>
+        <h2>Collab Playlist Gerador</h2>
+        <div id="playlist-content">
             Nenhuma colaboração
         </div>
         <a class="btn btn-primary btn-lg"><i class="fa fa-arrow-left" aria-hidden="true"></i> Voltar</a>
@@ -105,6 +105,27 @@
 </div>
 
 </body>
+<script>
+    var playlist = {
+        id : 1,
+        name : "Dia CIn (não oficial)",
+        owner : "token do user criador",
+        limit : 50,
+        collaborations : 0,
+        max_collaborations : 10,
+        finished : false
+    };
+    var playlists = [
+        playlist,
+        playlist,
+        playlist,
+        playlist,
+        playlist,
+        playlist,
+        playlist
+    ]
+
+</script>
 <script src="lib/jquery-1.11.1.min.js"></script>
 <script src="lib/bootstrap.min.js"></script>
 <script src="src/generator.js"></script>
