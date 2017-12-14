@@ -39,6 +39,11 @@ function initApp() {
         addColaboracao();
     });
 
+    $("#btn-voltar").on('click', function() {
+        hideAllcontents();
+        $("#listagem").show();
+    });
+
     /*
     for(let i = 0; i < playlists.length; i++) {
         $("#playlist_"+i).on('click', function() {
